@@ -18,13 +18,37 @@ public class Service {
     String country;
     String countryShortcut;
     String currencyCode;
+    String city;
+    String currencyForValueInserted;
+    String nbpValue;
 
     public Service(String country){
         this.country = country;
     }
 
+    public String getCity(){
+        return this.city;
+    }
+
+    public String getCountry(){
+        return this.country;
+    }
+
+    public String getCurrencyCode(){
+        return this.currencyCode;
+    }
+
+    public String getCurrencyForValueInserted(){
+        return this.currencyForValueInserted;
+    }
+
+    public String getNbpValue(){
+        return this.nbpValue;
+    }
+
     //function returning the json of actual weather in the city
     public String getWeather(String miasto){
+        this.city = miasto;
         String apiKey = "f6d28a2cbcc0ec6ed84819bc9c893d89";
         String url = "http://api.openweathermap.org/data/2.5/weather?q=" + miasto + "," + country + "&appid=" + apiKey;
 
@@ -82,6 +106,8 @@ public class Service {
 
                 exchangeValue = exchangeValue.substring(5);
 
+                currencyForValueInserted = exchangeValue;
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -108,15 +134,33 @@ public class Service {
                     e.printStackTrace();
                 }
 
+
+
                 //returning JSON
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        System.out.println();
+
                         if(line.contains(currencyCode)){
                             System.out.println(line);
+
+                            int shortcutIndex = line.indexOf(currencyCode);
+                            line = line.substring(shortcutIndex);
+
+                            //Getting only exchange value
+
+                            int commaIndex = line.indexOf(':');
+                            line = line.substring(commaIndex);
+                            System.out.println(line);
+
+                            int signIndex = line.indexOf('}');
+                            line = line.substring(1,signIndex);
+
+                            nbpValue = line;
+
+                            return Double.valueOf(line);
                         }
-                        // Tutaj możesz przetwarzać każdą linię, jeśli jest to konieczne
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -127,4 +171,6 @@ public class Service {
         }
         return null;
     }
+
+
 }

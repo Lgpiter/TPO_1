@@ -13,11 +13,12 @@ public class Main {
         Service s = new Service("Poland");
         String weatherJson = s.getWeather("Warsaw");
         System.out.println(weatherJson);
-        Double rate1 = s.getRateFor("USD");//do zmiany na USD
+        Double rate1 = s.getRateFor("USD");
         System.out.println(rate1);
         Double rate2 = s.getNBPRate();
         // ...
-        // część uruchamiająca GUI
+        GUI myGui = new GUI(s.getCity(), s.getCountry(), s.getCurrencyCode(), s.getCurrencyForValueInserted(), s.nbpValue);
+        myGui.showWikiPage();
 
 
     }

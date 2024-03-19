@@ -6,11 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class CurrencyCalucaltor {
-    String country;
-
-    /*public CurrencyCalucaltor(String country){
-        this.country=country;
-    }*/
 
     //function for finding the coutrny currency shortcut from file
     public static String countryCurrency(String country){
@@ -39,4 +34,6 @@ public class CurrencyCalucaltor {
 
         return shortcut;
     }
+
+
 }
